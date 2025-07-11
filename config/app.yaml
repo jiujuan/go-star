@@ -1,0 +1,22 @@
+server:
+  port: 8080
+  mode: debug          # release/test
+
+mysql:
+  dsn: "user:pass@tcp(127.0.0.1:3306)/go_star?charset=utf8mb4&parseTime=true"
+  max_open_conns: 20
+  max_idle_conns: 10
+
+redis:
+  addr: "127.0.0.1:6379"
+  password: ""
+  db: 0
+  pool_size: 20
+
+jwt:
+  secret: "supersecret"
+  expire: 24h
+
+log:
+  level: info
+  format: json
