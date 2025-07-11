@@ -31,3 +31,14 @@ func (s *UserService) Login(ctx context.Context, username, password string) (str
 	token, err := s.jwt.Generate(username)
 	return token, err
 }
+
+func (s *UserService) CreateUser(ctx context.Context, u *model.User) error {
+	return s.db.Transaction(ctx, func(tx *db.DB) error {
+		// 复杂业务：先检查重名，再写入
+		var exist model.User
+		if err := tx.FirstWhere(ctx, &exist, "username = ?", u.Username); err == nil {
+			return fmt.Errorf("username already exists")
+		}
+		return tx.Create(ctx, u)
+	})
+}

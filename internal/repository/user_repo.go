@@ -33,3 +33,9 @@ func (r *UserRepo) FindByUsername(ctx context.Context, username string) (*model.
 	}
 	return &u, err
 }
+
+func (r *UserRepo) GetPage(ctx context.Context, page *db.Page) ([]model.User, error) {
+	var users []model.User
+	err := r.db.Paginate(ctx, &users, page, "1=1")
+	return users, err
+}
